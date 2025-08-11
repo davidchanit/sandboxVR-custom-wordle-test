@@ -1,5 +1,6 @@
 ![Multiplayer Wordle Game Interface](image.png)
 
+
 # Wordle Project (Tasks 1, 2, 3 & 4: Normal + Server/Client + Host Cheating + Multiplayer)
 
 ## 🎉 **BONUS FEATURES IMPLEMENTED** 🎉
