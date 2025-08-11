@@ -27,6 +27,30 @@
   font-size: 1.1rem;
 }
 
+.navigation {
+  margin-top: 15px;
+}
+
+.multiplayerLink {
+  display: inline-block;
+  background-color: #6aaa64;
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  border: 2px solid #6aaa64;
+}
+
+.multiplayerLink:hover {
+  background-color: #5a9a54;
+  border-color: #5a9a54;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(106, 170, 100, 0.3);
+}
+
 .gameInfo {
   display: flex;
   flex-direction: row;

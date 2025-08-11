@@ -364,10 +364,15 @@ export default function Home() {
   if (!gameStarted) {
     return (
       <div className={styles.container}>
-        <div className={styles.header}>
-          <h1>Wordle</h1>
-          <p>Choose your game mode and challenge level</p>
+              <div className={styles.header}>
+        <h1>Wordle</h1>
+        <p>Choose your game mode and challenge level</p>
+        <div className={styles.navigation}>
+          <a href="/multiplayer" className={styles.multiplayerLink}>
+            🎮 Play Multiplayer
+          </a>
         </div>
+      </div>
         
         <ModeSelection 
           onModeSelect={handleModeSelect}
@@ -394,6 +399,11 @@ export default function Home() {
       
       <div className={styles.header}>
         <h1>Wordle</h1>
+        <div className={styles.navigation}>
+          <a href="/multiplayer" className={styles.multiplayerLink}>
+            🎮 Multiplayer
+          </a>
+        </div>
         <div className={styles.gameInfo}>
           <span className={styles.modeBadge}>
             {selectedMode === 'cheating' ? '🎭 Cheating Mode' : '🎯 Normal Mode'}
