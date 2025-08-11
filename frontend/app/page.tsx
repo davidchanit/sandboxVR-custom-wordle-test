@@ -8,6 +8,8 @@ interface GameState {
   status: 'IN_PROGRESS' | 'WIN' | 'LOSE';
   roundsLeft: number;
   answer?: string;
+  candidatesCount?: number;
+  remainingCandidates?: string[];
 }
 
 interface TileProps {
@@ -20,6 +22,12 @@ interface Alert {
   id: string;
   message: string;
   type: 'error' | 'success' | 'info';
+}
+
+interface GameMode {
+  id: string;
+  name: string;
+  description: string;
 }
 
 const Tile = ({ letter, feedback, isCurrentRow }: TileProps) => {
@@ -63,6 +71,52 @@ const Snackbar = ({ alerts, onRemove }: {
           </button>
         </div>
       ))}
+    </div>
+  );
+};
+
+const ModeSelection = ({ onModeSelect, selectedMode }: {
+  onModeSelect: (mode: string) => void;
+  selectedMode: string;
+}) => {
+  const [modes, setModes] = useState<GameMode[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchModes();
+  }, []);
+
+  const fetchModes = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/modes');
+      const data = await response.json();
+      setModes(data.modes);
+    } catch (error) {
+      console.error('Failed to fetch modes:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <div className={styles.loading}>Loading modes...</div>;
+  }
+
+  return (
+    <div className={styles.modeSelection}>
+      <h2>Choose Game Mode</h2>
+      <div className={styles.modeGrid}>
+        {modes.map((mode) => (
+          <div
+            key={mode.id}
+            className={`${styles.modeCard} ${selectedMode === mode.id ? styles.selected : ''}`}
+            onClick={() => onModeSelect(mode.id)}
+          >
+            <h3>{mode.name}</h3>
+            <p>{mode.description}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
@@ -122,12 +176,10 @@ export default function Home() {
   const [currentGuess, setCurrentGuess] = useState('');
   const [keyStates, setKeyStates] = useState<Record<string, 'hit' | 'present' | 'miss' | 'empty'>>({});
   const [alerts, setAlerts] = useState<Alert[]>([]);
+  const [selectedMode, setSelectedMode] = useState<string>('normal');
+  const [gameStarted, setGameStarted] = useState(false);
 
   const API_BASE = 'http://localhost:4000/api';
-
-  useEffect(() => {
-    startNewGame();
-  }, []);
 
   const addAlert = (message: string, type: 'error' | 'success' | 'info' = 'error') => {
     const id = Date.now().toString();
@@ -149,13 +201,14 @@ export default function Home() {
       const response = await fetch(`${API_BASE}/start`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ maxRounds: 6 })
+        body: JSON.stringify({ maxRounds: 6, mode: selectedMode })
       });
       const data = await response.json();
       setSessionId(data.sessionId);
       setGameState(data.state);
       setCurrentGuess('');
       setKeyStates({});
+      setGameStarted(true);
     } catch (error) {
       console.error('Failed to start game:', error);
       addAlert('Failed to start game. Please try again.', 'error');
@@ -278,6 +331,59 @@ export default function Home() {
     return board;
   };
 
+  const handleModeSelect = (mode: string) => {
+    setSelectedMode(mode);
+  };
+
+  const resetGame = () => {
+    setGameState(null);
+    setSessionId('');
+    setCurrentGuess('');
+    setKeyStates({});
+    setGameStarted(false);
+  };
+
+  const changeModeDuringGame = () => {
+    if (gameState?.status === 'IN_PROGRESS') {
+      const guessesMade = gameState.guesses.length;
+      const roundsLeft = gameState.roundsLeft;
+      const progress = `${guessesMade} guesses made, ${roundsLeft} rounds left`;
+      
+      const confirmed = window.confirm(
+        `Are you sure you want to change modes?\n\nCurrent progress: ${progress}\nYour game progress will be lost.`
+      );
+      if (confirmed) {
+        resetGame();
+      }
+    } else {
+      resetGame();
+    }
+  };
+
+  // Show mode selection if game hasn't started
+  if (!gameStarted) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h1>Wordle</h1>
+          <p>Choose your game mode and challenge level</p>
+        </div>
+        
+        <ModeSelection 
+          onModeSelect={handleModeSelect}
+          selectedMode={selectedMode}
+        />
+        
+        <button 
+          onClick={startNewGame} 
+          className={styles.startGameButton}
+        >
+          Start Game
+        </button>
+      </div>
+    );
+  }
+
   if (!gameState) {
     return <div className={styles.loading}>Loading...</div>;
   }
@@ -288,6 +394,25 @@ export default function Home() {
       
       <div className={styles.header}>
         <h1>Wordle</h1>
+        <div className={styles.gameInfo}>
+          <span className={styles.modeBadge}>
+            {selectedMode === 'cheating' ? '🎭 Cheating Mode' : '🎯 Normal Mode'}
+          </span>
+          {/* {selectedMode === 'cheating' && gameState.candidatesCount && (
+            <span className={styles.candidatesCount}>
+              {gameState.candidatesCount} candidates remaining
+            </span>
+          )} */}
+          {gameState.status === 'IN_PROGRESS' && (
+            <button 
+              onClick={changeModeDuringGame} 
+              className={styles.changeModeButton}
+              title={`Switch from ${selectedMode === 'cheating' ? 'Cheating' : 'Normal'} Mode to a different game mode`}
+            >
+              🔄 Change Mode
+            </button>
+          )}
+        </div>
         {gameState.status !== 'IN_PROGRESS' && (
           <div className={styles.answer}>
             Answer: {gameState.answer}
@@ -304,9 +429,14 @@ export default function Home() {
       {gameState.status !== 'IN_PROGRESS' && (
         <div className={styles.gameOver}>
           <h2>{gameState.status === 'WIN' ? 'Congratulations!' : 'Game Over'}</h2>
-          <button onClick={startNewGame} className={styles.newGameButton}>
-            New Game
-          </button>
+          <div className={styles.gameOverButtons}>
+            <button onClick={startNewGame} className={styles.newGameButton}>
+              New Game
+            </button>
+            <button onClick={changeModeDuringGame} className={styles.changeModeButton}>
+              Change Mode
+            </button>
+          </div>
         </div>
       )}
     </div>
