@@ -21,6 +21,82 @@
   letter-spacing: 2px;
 }
 
+.header p {
+  color: #a1a1aa;
+  margin-top: 10px;
+  font-size: 1.1rem;
+}
+
+.gameInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 15px;
+  align-items: center;
+}
+
+.modeBadge {
+  background-color: #3a3a3c;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.candidatesCount {
+  background-color: #1f2937;
+  color: #a1a1aa;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-family: monospace;
+}
+
+/* Inline mode switching button */
+.gameInfo .changeModeButton {
+  background-color: #3a3a3c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #6b7280;
+  animation: pulse 2s infinite;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.gameInfo .changeModeButton:hover {
+  background-color: #4a4a4c;
+  transform: translateY(-1px);
+  border-color: #9ca3af;
+  animation: none;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(107, 114, 128, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(107, 114, 128, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(107, 114, 128, 0);
+  }
+}
+
 .answer {
   background-color: #3a3a3c;
   color: white;
@@ -29,6 +105,74 @@
   margin-top: 10px;
   font-size: 1.1rem;
   font-weight: bold;
+}
+
+/* Mode Selection Styles */
+.modeSelection {
+  text-align: center;
+  margin-bottom: 30px;
+  max-width: 600px;
+}
+
+.modeSelection h2 {
+  color: white;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.modeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.modeCard {
+  background-color: #1f2937;
+  border: 2px solid #374151;
+  border-radius: 8px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.modeCard:hover {
+  border-color: #6b7280;
+  transform: translateY(-2px);
+}
+
+.modeCard.selected {
+  border-color: #6aaa64;
+  background-color: #1f3a1f;
+}
+
+.modeCard h3 {
+  color: white;
+  margin: 0 0 10px 0;
+  font-size: 1.3rem;
+}
+
+.modeCard p {
+  color: #a1a1aa;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.startGameButton {
+  background-color: #6aaa64;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.startGameButton:hover {
+  background-color: #5a9a54;
 }
 
 .board {
@@ -114,6 +258,13 @@
   margin-bottom: 20px;
 }
 
+.gameOverButtons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 .newGameButton {
   background-color: #6aaa64;
   color: white;
@@ -128,6 +279,22 @@
 
 .newGameButton:hover {
   background-color: #5a9a54;
+}
+
+.changeModeButton {
+  background-color: #3a3a3c;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.changeModeButton:hover {
+  background-color: #4a4a4c;
 }
 
 .loading {
@@ -230,6 +397,20 @@
   
   .header h1 {
     font-size: 2rem;
+  }
+
+  .modeGrid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .modeCard {
+    padding: 15px;
+  }
+
+  .gameOverButtons {
+    flex-direction: column;
+    align-items: center;
   }
 
   .snackbarContainer {

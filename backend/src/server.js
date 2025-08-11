@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const WordleGame = require('./game');
+const GameFactory = require('./gameFactory');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -23,11 +23,22 @@ function genSessionId() {
 
 // Start a new game
 app.post('/api/start', (req, res) => {
-  const { maxRounds = 6 } = req.body;
+  const { maxRounds = 6, mode = 'normal' } = req.body;
+  
+  // Validate mode
+  if (!['normal', 'cheating'].includes(mode)) {
+    return res.status(400).json({ error: 'Invalid mode. Must be "normal" or "cheating"' });
+  }
+  
   const sessionId = genSessionId();
-  const game = new WordleGame(WORD_LIST, maxRounds);
+  const game = GameFactory.createGame(mode, WORD_LIST, maxRounds);
   sessions[sessionId] = game;
-  res.json({ sessionId, state: game.getState() });
+  
+  res.json({ 
+    sessionId, 
+    mode,
+    state: game.getState() 
+  });
 });
 
 // Make a guess
@@ -51,6 +62,25 @@ app.get('/api/state', (req, res) => {
   res.json(game.getState());
 });
 
+// Get available game modes
+app.get('/api/modes', (req, res) => {
+  res.json({
+    modes: [
+      {
+        id: 'normal',
+        name: 'Normal Mode',
+        description: 'Classic Wordle game with a fixed answer'
+      },
+      {
+        id: 'cheating',
+        name: 'Cheating Mode',
+        description: 'Host adapts to prolong the game (harder to win)'
+      }
+    ]
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Wordle backend running on port ${PORT}`);
+  console.log(`Available modes: normal, cheating`);
 });
