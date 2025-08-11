@@ -1,4 +1,4 @@
-# Wordle Project (Tasks 1, 2 & 3: Normal + Server/Client + Host Cheating)
+# Wordle Project (Tasks 1, 2, 3 & 4: Normal + Server/Client + Host Cheating + Multiplayer)
 
 ## 🎉 **BONUS FEATURES IMPLEMENTED** 🎉
 
@@ -31,6 +31,15 @@
 - **Score-based answer selection** (fewer hits, then fewer presents)
 - **Consistent behavior** that players can learn and strategize against
 
+#### **5. 🎮 Real-Time Multiplayer System (Task 4)**
+- **WebSocket-based real-time communication** using Socket.io
+- **Room-based multiplayer** with unique 6-character codes
+- **Host management** with automatic host reassignment
+- **Multi-round tournament system** (3 rounds per game)
+- **Real-time score tracking** and player rankings
+- **Automatic room cleanup** for inactive sessions
+- **Support for both normal and cheating modes** in multiplayer
+
 ---
 
 ## 🚀 **FUTURE BONUS FEATURES (Not Yet Implemented)** 🚀
@@ -45,11 +54,11 @@
 - **Social sharing** of results
 
 #### **2. 🎭 Advanced Game Modes**
-- **Multiplayer mode** with real-time competition
 - **Time attack mode** with countdown timers
 - **Daily challenges** with unique word sets
 - **Custom word lists** for themed games
 - **Tournament brackets** for competitive play
+- **Spectator mode** for watching multiplayer games
 
 #### **3. 🎨 Rich Animations & Visual Effects**
 - **Tile flip animations** with 3D effects
@@ -164,12 +173,21 @@ This project implements the classic Wordle game, fulfilling Tasks 1 (Normal Word
       game.js      # Core game logic for normal mode
       cheatingGame.js # Core game logic for cheating mode
       gameFactory.js  # Factory to create appropriate game type
-      server.js    # Express server, API endpoints
+      multiplayerGame.js # Multiplayer game session management
+      roomManager.js    # Room creation and management
+      server.js    # Express server, API endpoints + WebSocket
       ...
     /tests         # Backend unit tests
+      game.test.js # Normal game tests
+      cheatingGame.test.js # Cheating game tests
+      multiplayerGame.test.js # Multiplayer game tests
   /frontend        # Next.js frontend (UI)
-    /components    # React components (Board, Keyboard, etc.)
-    /pages         # Next.js pages (index.js, etc.)
+    /app
+      page.tsx     # Main single-player game
+      page.module.css # Single-player styles
+      /multiplayer
+        page.tsx   # Multiplayer game interface
+        multiplayer.module.css # Multiplayer styles
     /utils         # Shared helpers
     ...
   /shared          # (Optional) Shared code (e.g., word lists, types)
@@ -184,6 +202,17 @@ This project implements the classic Wordle game, fulfilling Tasks 1 (Normal Word
 - `POST /api/guess` - Submit a guess for a session
 - `GET /api/state` - Get current game state
 - `GET /api/modes` - Get available game modes
+
+### Multiplayer
+- `GET /api/multiplayer/rooms` - Get list of available rooms
+- `GET /api/multiplayer/stats` - Get multiplayer server statistics
+
+### WebSocket Events
+- `joinRoom` - Join or create a room
+- `startGame` - Start the multiplayer game
+- `makeGuess` - Submit a guess
+- `leaveRoom` - Leave the current room
+- `getRoomInfo` - Get current room information
 
 ### Example API Usage
 
@@ -214,6 +243,7 @@ This project is a fullstack Wordle game with a modern web architecture:
 
 - **Frontend:** Built with Next.js (React), it provides a user-friendly interface for playing Wordle in the browser.
 - **Backend:** Built with Node.js and Express, it handles all game logic, validation, and state management.
+- **Multiplayer:** Real-time WebSocket communication using Socket.io for live multiplayer gameplay.
 
 ### How the Game Flow Works
 
@@ -231,6 +261,15 @@ This project is a fullstack Wordle game with a modern web architecture:
 
 5. **Multiple Users:**  
    Each user (or browser tab) gets a unique session and can play independently.
+
+### How Multiplayer Works
+
+1. **Room Creation:** Players can create new rooms with custom settings (2-4 players, normal/cheating mode)
+2. **Room Joining:** Players join rooms using 6-character room codes (e.g., "ABC123")
+3. **Game Start:** Host starts the game when ready (minimum 2 players required)
+4. **Real-Time Play:** All players see each other's progress in real-time
+5. **Multi-Round System:** Games consist of 3 rounds with cumulative scoring
+6. **Final Rankings:** Players are ranked by total score across all rounds
 
 > **Note:** For now, all sessions are stored in backend memory. If the server restarts, all games in progress are lost.
 
@@ -255,11 +294,11 @@ This project is a fullstack Wordle game with a modern web architecture:
 
 ## Measurement Criteria Fulfillment
 
-- **Understanding of Abstract Problem:** Implements all required rules, configurable word list and rounds, clear win/lose logic, and the complex cheating algorithm from Task 3.
-- **Decision Making:** All technology and structure choices are documented above, with trade-offs explained, including the decision to separate game modes.
-- **Code Quality & Organization:** Modular, well-documented code, clear folder structure, factory pattern for game creation, and best practices followed.
-- **Documentation:** This README and in-code comments explain setup, usage, design decisions, and how the cheating mode works.
-- **Source Code Repository Practice:** Organized commits, clear history, maintainable structure with proper separation of concerns.
+- **Understanding of Abstract Problem:** Implements all required rules, configurable word list and rounds, clear win/lose logic, the complex cheating algorithm from Task 3, and real-time multiplayer functionality from Task 4.
+- **Decision Making:** All technology and structure choices are documented above, with trade-offs explained, including the decision to separate game modes and implement WebSocket-based multiplayer.
+- **Code Quality & Organization:** Modular, well-documented code, clear folder structure, factory pattern for game creation, comprehensive testing (42 tests passing), and best practices followed.
+- **Documentation:** This README and in-code comments explain setup, usage, design decisions, how the cheating mode works, and multiplayer implementation details.
+- **Source Code Repository Practice:** Organized commits, clear history, maintainable structure with proper separation of concerns and extensible architecture.
 
 ## Setup & Running
 
@@ -282,17 +321,14 @@ This project is a fullstack Wordle game with a modern web architecture:
 
 ## Future Enhancements
 
-### Task 4: Multi-player Wordle
-- Support for multiple players in the same game
-- Real-time progress monitoring
-- Competitive gameplay modes
-
 ### Bonus Features
 - High score tracking
 - Game statistics and analytics
 - Enhanced animations and UI effects
 - Word difficulty ratings
 - Custom word lists and themes
+- Spectator mode for multiplayer games
+- Tournament brackets and competitive leagues
 
 ## Contributing
 

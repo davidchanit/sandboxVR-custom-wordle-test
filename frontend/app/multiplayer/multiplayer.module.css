@@ -1,0 +1,703 @@
+/* Multiplayer Wordle Styles */
+
+.container {
+  min-height: 100vh;
+  background-color: #121213;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: white;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+  letter-spacing: 2px;
+}
+
+.header p {
+  color: #a1a1aa;
+  margin-top: 10px;
+  font-size: 1.1rem;
+}
+
+.roomInfo {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.gameMode, .roundInfo, .playerCount {
+  background-color: #3a3a3c;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.error {
+  background-color: #dc3545;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.connectionStatus, .loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  text-align: center;
+}
+
+.connectionStatus h1, .loading h1 {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.connectionStatus p, .loading p {
+  color: #a1a1aa;
+  font-size: 1.1rem;
+}
+
+/* Lobby Section */
+.lobbySection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+  max-width: 800px;
+  width: 100%;
+}
+
+.createRoom, .joinRoom {
+  background-color: #1f2937;
+  border: 2px solid #374151;
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+}
+
+.createRoom h2, .joinRoom h2 {
+  color: white;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.input, .select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #374151;
+  border-radius: 8px;
+  background-color: #111827;
+  color: white;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.select {
+  padding-right: 40px; /* Add space for dropdown arrow */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  appearance: none; /* Remove default dropdown arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.input:focus, .select:focus {
+  outline: none;
+  border-color: #6aaa64;
+}
+
+.input::placeholder {
+  color: #6b7280;
+}
+
+.createButton, .joinButton {
+  background-color: #6aaa64;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.createButton:hover, .joinButton:hover {
+  background-color: #5a9a54;
+}
+
+/* Available Rooms */
+.availableRooms {
+  max-width: 800px;
+  width: 100%;
+}
+
+.availableRooms h2 {
+  color: white;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.availableRooms p {
+  color: #a1a1aa;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.roomList {
+  display: grid;
+  gap: 15px;
+}
+
+.roomCard {
+  background-color: #1f2937;
+  border: 2px solid #374151;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: border-color 0.2s ease;
+}
+
+.roomCard:hover {
+  border-color: #6b7280;
+}
+
+.roomHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.roomCode {
+  background-color: #6aaa64;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.roomMode {
+  font-size: 1.5rem;
+}
+
+.roomInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: #a1a1aa;
+  font-size: 0.9rem;
+}
+
+.quickJoinButton {
+  background-color: #3a3a3c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.quickJoinButton:hover:not(:disabled) {
+  background-color: #4a4a4c;
+}
+
+.quickJoinButton:disabled {
+  background-color: #1f2937;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+/* Game Section */
+.gameSection {
+  max-width: 1200px;
+  width: 100%;
+}
+
+.waiting {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.waiting h2 {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.players {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.player {
+  background-color: #1f2937;
+  border: 2px solid #374151;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.playerName {
+  font-weight: bold;
+  color: white;
+}
+
+.playerStatus {
+  color: #a1a1aa;
+  font-size: 0.9rem;
+}
+
+.startButton {
+  background-color: #6aaa64;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  height: 60px;
+  min-width: 140px;
+}
+
+.startButton:hover {
+  background-color: #5a9a54;
+}
+
+/* Gameplay */
+.gameplay {
+  text-align: center;
+}
+
+.sharedGame {
+  background-color: #1f2937;
+  border: 2px solid #374151;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.sharedGame h3 {
+  color: white;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  margin-top: 0;
+}
+
+.gameStatus {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  color: #a1a1aa;
+  font-size: 0.9rem;
+}
+
+.playerBoards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.playerBoard {
+  background-color: #1f2937;
+  border: 2px solid #374151;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.playerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.playerName {
+  font-weight: bold;
+  color: white;
+}
+
+.playerScore {
+  color: #6aaa64;
+  font-weight: bold;
+}
+
+.playerStatus {
+  color: #a1a1aa;
+  font-size: 0.9rem;
+}
+
+.playerGuesses {
+  color: #6aaa64;
+  font-size: 0.8rem;
+  background-color: #1f2937;
+  padding: 2px 6px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.readyForNextRound {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.readyButton {
+  background-color: #6aaa64;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.readyButton:hover:not(:disabled) {
+  background-color: #5a9a54;
+  transform: translateY(-1px);
+}
+
+.readyButton:disabled {
+  background-color: #4a4a4a;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  gap: 5px;
+}
+
+.tile {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #3a3a3c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.guessInput {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.guessInputField {
+  padding: 12px 16px;
+  border: 2px solid #374151;
+  border-radius: 8px;
+  background-color: #111827;
+  color: white;
+  font-size: 1.1rem;
+  width: 200px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.guessInputField:focus {
+  outline: none;
+  border-color: #6aaa64;
+}
+
+.submitButton {
+  background-color: #6aaa64;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submitButton:hover {
+  background-color: #5a9a54;
+}
+
+/* Results */
+.results {
+  text-align: center;
+}
+
+.results h2 {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.rankings {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rankingRow {
+  background-color: #1f2937;
+  border: 2px solid #374151;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rank {
+  background-color: #6aaa64;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.playerName {
+  font-weight: bold;
+  color: white;
+}
+
+.score {
+  color: #6aaa64;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.answer {
+  background-color: #3a3a3c;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  display: inline-block;
+}
+
+.leaveButton {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  height: 60px;
+  min-width: 140px;
+}
+
+.leaveButton:hover {
+  background-color: #c82333;
+}
+
+.forceLeaveButton {
+  background-color: #ff4444 !important;
+  color: white !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  border-radius: 5px !important;
+  cursor: pointer !important;
+  margin-left: 10px !important;
+  font-weight: bold !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.forceLeaveButton:hover {
+  background-color: #ff0000 !important;
+}
+
+/* Button container for consistent layout */
+.buttonContainer {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+/* Current guess display */
+.currentGuess {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.guessTile {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #3a3a3c;
+  background-color: #121213;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+/* Virtual Keyboard */
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 20px 0;
+  align-items: center;
+}
+
+.keyboardRow {
+  display: flex;
+  gap: 6px;
+}
+
+.key {
+  background-color: #818384;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 15px 10px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  min-width: 40px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.key:hover {
+  background-color: #6b6b6b;
+}
+
+.key.enter {
+  min-width: 60px;
+  font-size: 0.8rem;
+}
+
+.key.backspace {
+  min-width: 60px;
+  font-size: 1.2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .lobbySection {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .createRoom, .joinRoom {
+    padding: 20px;
+  }
+  
+  .playerBoards {
+    grid-template-columns: 1fr;
+  }
+  
+  .tile {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+  
+  .guessInput {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .guessInputField {
+    width: 100%;
+    max-width: 250px;
+  }
+  
+  .roomCard {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .roomInfo {
+    align-items: center;
+  }
+} 
